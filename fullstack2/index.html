@@ -9,31 +9,22 @@
 <body>
     <h1>Formulario Información Alta Telefónica</h1>
     <form action="./procesarFormulario.php" name="telefonica">
-
         <fieldset>
             <legend>Datos Personales</legend>
-            <label>Nombre: <input type="text" name="nombre" maxlength="30" /></label><br />
-            <label>Apellidos: <input type="text" name="apellidos" maxlength="60" /></label><br />
-            <label>Dirección: <input type="text" name="direccion" maxlength="60" /></label><br />
-            <label>Codigo Postal: <input type="text" id="cpostal" name="cpostal" onkeyup="innerCP()"
-                    pattern="[0-9]{5}" /></label><br />
-            <label>Provincia: <input type="text" name="provincia" id="provincia" onkeyup="innerProv()" /></label><br />
-            <p id="innerProv">El campo Provincia esta vacio</p>
-            <p id="innerCp">El campo Código postal esta vacio</p>
-
+            Nombre: <input type="text" name="nombre" maxlength="30" /><br />
+            Apellidos: <input type="text" name="apellidos" maxlength="60" /><br />
+            Dirección: <input type="text" name="direccion" maxlength="60" /><br />
+            Codigo Postal: <input type="text" name="cpostal" pattern="[0-9]{5}" /><br />
+            Provincia: <input type="text" name="provincia" /><br />
         </fieldset>
-
         <br />
         <fieldset>
             <legend>Tipo de Contratación</legend>
-            <label><input type="radio" name="tipoc" value="nuevo" checked="checked">Nueva Contratación</label>
+            <input type="radio" name="tipoc" value="nuevo" checked="checked">Nueva Contratación
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <label><input type="radio" name="tipoc" value="porta">Portabilidad</label>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <label><input type="radio" name="tipoc" value="cambio">Cambio de Contrato</label>
+            <input type="radio" name="tipoc" value="porta">Portabilidad &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="tipoc" value="cambio">Cambio de Contrato
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br /><br />
-
-            <!-- AÑADIR LAS LABEL -->
             Elija la compañía actual:
             <select name="origen">
                 <option value="movistar">Movistar</option>
@@ -43,8 +34,6 @@
                 <option value="ninguna">No tengo ninguna compañía</option>
             </select>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-            <!-- AÑADIR LAS LABEL -->
             En caso de portabilidad, elija la nueva compañía:
             <select name="origen">
                 <option value="movistar">Movistar</option>
@@ -54,7 +43,6 @@
             </select>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </fieldset>
-
         <fieldset>
             <legend>Datos Bancarios</legend>
             <label>País: <input type="text" name="pais" value="ES" readonly="readonly" /> (sólo válido ES)</label><br />
@@ -64,7 +52,6 @@
             <label> DC: <input type="text" id="dc" placeholder="XX" /> (dos dígitos)</label><br />
             <label>Cuenta: <input type="text" id="cuenta" placeholder="XXXXXXXXXX" pattern="[0-9]{10}" /> (diez dígitos)</label><br />
         </fieldset>
-
         <fieldset>
             <legend>Datos Estadísticos ¿Cómo nos conoció?</legend>
             <input type="checkbox" id="tv" name="tv" value="tv">
@@ -76,14 +63,12 @@
             <input type="checkbox" id="otros" name="otros" value="otros">
             <label for="otros"> Otros</label><br />
             <br />
-            <input type="range" id="valoracion" name="valoracion" min="1" max="4">
+            <input type="range" id="valoracion" min="1" max="4">
             <label for="valoracion">Valoración [1-4]</label><br />
             <br />
             <label for="fecha">Fecha de Encuesta:</label>
             <input type="date" id="fecha" name="fecha" value="2019-01-01">
-
         </fieldset>
-
         <input type="submit" value="Enviar Datos" />
         <input type="reset" value="Borrar Datos" />
         <br />
@@ -93,137 +78,39 @@
     </form>
 
     <script>
-        var valoracion = document.getElementById("valoracion").value
-
-        var pais = document.getElementsByName("pais")[0].value
-        var ciban = document.getElementById("ciban")
-        var enti = document.getElementById("enti")
-        var suc = document.getElementById("suc")
-        var dc = document.getElementById("dc")
-        var cuenta = document.getElementById("cuenta")
-
-        var cpInput = document.getElementById("cpostal").value
-
-        var fecha = document.getElementById("fecha").value
-        const dias = [
-            'domingo',
-            'lunes',
-            'martes',
-            'miércoles',
-            'jueves',
-            'viernes',
-            'sábado',
-        ];
-        var numeroDia = new Date(fecha).getDay();
-        var nombreDia = dias[numeroDia];
-
-        //ARREGLAR VALORACION!!
         function fvaloracion() {
+            let valoracion = document.getElementById("valoracion").value
             alert('Has valorado con ' + valoracion + ' puntos')
         }
         function fcuenta() {
+            let pais = document.getElementsByName("pais")[0].value
+            let ciban = document.getElementById("ciban")
+            let enti = document.getElementById("enti")
+            let suc = document.getElementById("suc")
+            let dc = document.getElementById("dc")
+            let cuenta = document.getElementById("cuenta")
             alert('Le informamos que su cuenta bancaria es: ' + pais + ciban.value + '-' + enti.value + '-' + suc.value + '-' + dc.value + cuenta.value)
         }
         function ffecha() {
+            const dias = [
+                'domingo',
+                'lunes',
+                'martes',
+                'miércoles',
+                'jueves',
+                'viernes',
+                'sábado',
+            ];
+            let fecha = document.getElementById("fecha").value
+            let numeroDia = new Date(fecha).getDay();
+            let nombreDia = dias[numeroDia];
             alert('La fecha seleccionada en el elemento de fechas es un ' + nombreDia)
         }
 
-        var cp = [
-            "Alava",
-            "Albacete",
-            "Alicante",
-            "Almeria",
-            "Avila",
-            "Badajoz",
-            "Islas Baleares",
-            "Barcelona",
-            "Burgos",
-            "Caceres",
-            "Cadiz",
-            "Castellon",
-            "Ciudad Real",
-            "Cordoba",
-            "La Coruna",
-            "Cuenca",
-            "Gerona",
-            "Granada",
-            "Guadalajara",
-            "Guipuzcoa",
-            "Huelva",
-            "Huesca",
-            "Jaen",
-            "Leon",
-            "Lerida",
-            "La Rioja",
-            "Lugo",
-            "Madrid",
-            "Malaga",
-            "Murcia",
-            "Navarra",
-            "Orense",
-            "Asturias",
-            "Palencia",
-            "Las Palmas",
-            "Pontevedra",
-            "Salamanca",
-            "Santa Cruz de Tenerife",
-            "Cantabria",
-            "Segovia",
-            "Sevilla",
-            "Soria",
-            "Tarragona",
-            "Teruel",
-            "Toledo",
-            "Valencia",
-            "Valladolid",
-            "Vizcaya",
-            "Zamora",
-            "Zaragoza",
-            "Ceuta",
-            "Melilla"
-        ]
+        var cpInput = document.getElementById("cpostal").value
 
-        function innerProv() {
-            let provinciaInput = document.getElementById("provincia").value
-            let cpIndex = cp.indexOf(provinciaInput) + 1
-
-            let cpIni = cpInput.substr(-5, 2)
-
-            if (cpIndex < 10) {
-                cpIndex = '0' + cpIndex
-            }
-
-            if (cpIndex != cpIni) {
-                document.getElementById("innerProv").innerHTML = "El Codigo Postal no coincide con la provincia";
-                if (!cp.includes(provinciaInput)) {
-                    document.getElementById("innerProv").innerHTML = "La provincia no existe, recuerde que no debe contener acentos ni ñ y la primera letra debe ser mayúscula";
-                    if (provinciaInput == '') {
-                        document.getElementById("innerProv").innerHTML = "Debe rellenar el campo provincia";
-                    }
-                } else {
-                    document.innerProv.style.color = "green";
-                    document.getElementById("innerProv").innerHTML = "El código postal coincide con la provincia";
-
-                }
-            }
-        }
-
-        function innerCP() {
-
-            if (cpInput.length != 5) {
-                document.getElementById("innerCp").innerHTML = "El código postal debe contener 5 digitos";
-            }
-            if (!Number.isInteger(cpInput)) {
-                document.getElementById("innerCp").innerHTML = "El código postal debe contener digitos numéricos";
-            }
-            if (cpInput == '') {
-                document.getElementById("innerCp").innerHTML = "Debe rellenar especificar el código postal" + cpInput;
-            } else {
-                document.getElementById("innerCp").innerHTML = "";
-            }
-        }
     </script>
 
 </body>
 
-</html>
+</html
