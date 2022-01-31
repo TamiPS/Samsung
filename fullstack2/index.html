@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
     <title>Prueba de laboratorio</title>
 </head>
 
@@ -11,11 +11,14 @@
     <form action="./procesarFormulario.php" name="telefonica">
         <fieldset>
             <legend>Datos Personales</legend>
-            Nombre: <input type="text" name="nombre" maxlength="30" /><br />
-            Apellidos: <input type="text" name="apellidos" maxlength="60" /><br />
-            Dirección: <input type="text" name="direccion" maxlength="60" /><br />
-            Codigo Postal: <input type="text" name="cpostal" pattern="[0-9]{5}" /><br />
-            Provincia: <input type="text" name="provincia" /><br />
+            Nombre: <input type="text" class="campo" name="nombre" maxlength="30" /><br />
+            Apellidos: <input type="text" class="campo" name="apellidos" maxlength="60" /><br />
+            Dirección: <input type="text" class="campo" name="direccion" maxlength="60" /><br />
+            Codigo Postal: <input type="text" class="campo" id="cpostal" pattern="[0-9]{5}"
+                onkeyup="checkCP()" /><br />
+            Provincia: <input type="text" class="campo" id="provincia" onkeyup="checkProvincia()" /><br />
+            <p id="innerProv">El campo Provincia esta vacio</p>
+            <p id="innerCp">El código postal esta vacio</p>
         </fieldset>
         <br />
         <fieldset>
@@ -45,12 +48,17 @@
         </fieldset>
         <fieldset>
             <legend>Datos Bancarios</legend>
-            <label>País: <input type="text" name="pais" value="ES" readonly="readonly" /> (sólo válido ES)</label><br />
-            <label>Control IBAN: <input type="text" id="ciban" placeholder="XX" pattern="[0-9]{2}" /> (dos dígitos)</label><br />
-            <label>Entidad: <input type="text" id="enti" placeholder="XXXX" pattern="[0-9]{4}" /> (cuatro dígitos)</label><br />
-            <label>Sucursal: <input type="text" id="suc" placeholder="XXXX" pattern="[0-9]{4}" /> (cuatro dígitos)</label><br />
-            <label> DC: <input type="text" id="dc" placeholder="XX" /> (dos dígitos)</label><br />
-            <label>Cuenta: <input type="text" id="cuenta" placeholder="XXXXXXXXXX" pattern="[0-9]{10}" /> (diez dígitos)</label><br />
+            <label>País: <input type="text" class="campo" name="pais" value="ES" readonly="readonly" /> (sólo válido
+                ES)</label><br />
+            <label>Control IBAN: <input type="text" class="campo" id="ciban" placeholder="XX" pattern="[0-9]{2}" /> (dos
+                dígitos)</label><br />
+            <label>Entidad: <input type="text" class="campo" id="enti" placeholder="XXXX" pattern="[0-9]{4}" /> (cuatro
+                dígitos)</label><br />
+            <label>Sucursal: <input type="text" class="campo" id="suc" placeholder="XXXX" pattern="[0-9]{4}" /> (cuatro
+                dígitos)</label><br />
+            <label> DC: <input type="text" class="campo" id="dc" placeholder="XX" /> (dos dígitos)</label><br />
+            <label>Cuenta: <input type="text" class="campo" id="cuenta" placeholder="XXXXXXXXXX" pattern="[0-9]{10}" />
+                (diez dígitos)</label><br />
         </fieldset>
         <fieldset>
             <legend>Datos Estadísticos ¿Cómo nos conoció?</legend>
@@ -72,9 +80,9 @@
         <input type="submit" value="Enviar Datos" />
         <input type="reset" value="Borrar Datos" />
         <br />
-        <button type="button" onclick="fvaloracion()">Mostrar Valoración</button>
-        <button type="button" onclick="fcuenta()">Mostrar Cuenta</button>
-        <button type="button" onclick="ffecha()">Mostrar Día Semana</button>
+        <button type="button" class="infoButton" onclick="fvaloracion()">Mostrar Valoración</button>
+        <button type="button" class="infoButton" onclick="fcuenta()">Mostrar Cuenta</button>
+        <button type="button" class="infoButton" onclick="ffecha()">Mostrar Día Semana</button>
     </form>
 
     <script>
@@ -107,8 +115,103 @@
             alert('La fecha seleccionada en el elemento de fechas es un ' + nombreDia)
         }
 
-        var cpInput = document.getElementById("cpostal").value
+        function checkProvincia() {
+            var cp = [
+                "Alava",
+                "Albacete",
+                "Alicante",
+                "Almeria",
+                "Avila",
+                "Badajoz",
+                "Islas Baleares",
+                "Barcelona",
+                "Burgos",
+                "Caceres",
+                "Cadiz",
+                "Castellon",
+                "Ciudad Real",
+                "Cordoba",
+                "La Coruna",
+                "Cuenca",
+                "Gerona",
+                "Granada",
+                "Guadalajara",
+                "Guipuzcoa",
+                "Huelva",
+                "Huesca",
+                "Jaen",
+                "Leon",
+                "Lerida",
+                "La Rioja",
+                "Lugo",
+                "Madrid",
+                "Malaga",
+                "Murcia",
+                "Navarra",
+                "Orense",
+                "Asturias",
+                "Palencia",
+                "Las Palmas",
+                "Pontevedra",
+                "Salamanca",
+                "Santa Cruz de Tenerife",
+                "Cantabria",
+                "Segovia",
+                "Sevilla",
+                "Soria",
+                "Tarragona",
+                "Teruel",
+                "Toledo",
+                "Valencia",
+                "Valladolid",
+                "Vizcaya",
+                "Zamora",
+                "Zaragoza",
+                "Ceuta",
+                "Melilla"
+            ]
 
+            document.getElementById("innerProv").innerHTML = "";
+            let provinciaInput = document.getElementById("provincia").value
+            let cpIndex = cp.indexOf(provinciaInput) + 1
+            let cpInput = document.getElementById("cpostal").value
+            let cpIni = cpInput.substr(-5, 2)
+
+            if (cpIndex < 10) {
+                cpIndex = '0' + cpIndex
+            }
+
+            if (cpIndex != cpIni) {
+                document.getElementById("innerProv").style.color = "red"
+                document.getElementById("innerProv").innerHTML = "El Codigo Postal no coincide con la provincia";
+
+                if (!cp.includes(provinciaInput)) {
+                    document.getElementById("innerProv").innerHTML = "La provincia no existe, recuerde que no debe contener acentos ni ñ y la primera letra debe ser mayúscula";
+                    if (provinciaInput == '') {
+                        document.getElementById("innerProv").innerHTML = "Debe rellenar el campo provincia";
+                    }
+                } else {
+                    document.getElementById("innerProv").style.color = "green"
+                    document.getElementById("innerProv").innerHTML = "El código postal coincide con la provincia";
+                }
+            }
+        }
+        function checkCP() {
+            document.getElementById("innerProv").innerHTML = "";
+            let checkCP = document.getElementById("cpostal").value
+            document.getElementById("innerCp").innerHTML = "";
+            if (checkCP.length != 5) {
+                document.getElementById("innerCp").innerHTML = "El código postal debe contener 5 digitos";
+            }
+            if (!Number.isInteger(checkCP)) {
+                document.getElementById("innerCp").innerHTML = "El código postal debe contener digitos numéricos";
+            }
+            if (checkCP == '') {
+                document.getElementById("innerCp").innerHTML = "Debe rellenar el código postal" + checkCP;
+            } else {
+                document.getElementById("innerCp").innerHTML = "";
+            }
+        }
     </script>
 
 </body>
