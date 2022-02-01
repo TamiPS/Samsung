@@ -14,11 +14,10 @@
             Nombre: <input type="text" class="campo" name="nombre" maxlength="30" /><br />
             Apellidos: <input type="text" class="campo" name="apellidos" maxlength="60" /><br />
             Dirección: <input type="text" class="campo" name="direccion" maxlength="60" /><br />
-            Codigo Postal: <input type="text" class="campo" id="cpostal" pattern="[0-9]{5}"
-                onkeyup="checkCP()" /><br />
+            Codigo Postal: <input type="text" class="campo" id="cpostal" pattern="[0-9]{5}" onkeyup="checkCP()" /><br />
             Provincia: <input type="text" class="campo" id="provincia" onkeyup="checkProvincia()" /><br />
-            <p id="innerProv">El campo Provincia esta vacio</p>
-            <p id="innerCp">El código postal esta vacio</p>
+            <p id="innerProv"></p>
+            <p id="innerCp"></p>
         </fieldset>
         <br />
         <fieldset>
@@ -178,38 +177,53 @@
             let cpIni = cpInput.substr(-5, 2)
 
             if (cpIndex < 10) {
+                console.log("cpIndex < 10")
                 cpIndex = '0' + cpIndex
             }
 
-            if (cpIndex != cpIni) {
+            if (provinciaInput == '') {
+                console.log("Debe rellenar el campo provincia")
+                document.getElementById("innerProv").style.color = "red"
+                document.getElementById("innerProv").innerHTML = "Debe rellenar el campo provincia";
+            }
+            else if (!cp.includes(provinciaInput)) {
+                console.log("La provincia no existe, recuerde que no debe contener acentos ni ñ y la primera letra debe ser mayúscula")
+                document.getElementById("innerProv").style.color = "red"
+                document.getElementById("innerProv").innerHTML = "La provincia no existe, recuerde que no debe contener acentos ni ñ y la primera letra debe ser mayúscula";
+            }
+            else if (cpIndex != cpIni) {
+                console.log("El Codigo Postal no coincide con la provincia")
                 document.getElementById("innerProv").style.color = "red"
                 document.getElementById("innerProv").innerHTML = "El Codigo Postal no coincide con la provincia";
-
-                if (!cp.includes(provinciaInput)) {
-                    document.getElementById("innerProv").innerHTML = "La provincia no existe, recuerde que no debe contener acentos ni ñ y la primera letra debe ser mayúscula";
-                    if (provinciaInput == '') {
-                        document.getElementById("innerProv").innerHTML = "Debe rellenar el campo provincia";
-                    }
-                } else {
-                    document.getElementById("innerProv").style.color = "green"
-                    document.getElementById("innerProv").innerHTML = "El código postal coincide con la provincia";
-                }
+            }
+            else {
+                document.getElementById("innerProv").style.color = "green"
+                document.getElementById("innerProv").innerHTML = "El código postal coincide con la provincia";
+                console.log("green de provi")
             }
         }
         function checkCP() {
-            document.getElementById("innerProv").innerHTML = "";
+            document.getElementById("innerCp").style.color = "red"
+            document.getElementById("innerCp").innerHTML = "Debe rellenar el código postal";
             let checkCP = document.getElementById("cpostal").value
-            document.getElementById("innerCp").innerHTML = "";
-            if (checkCP.length != 5) {
+            if (checkCP == '') {
+                document.getElementById("innerCp").style.color = "red"
+                document.getElementById("innerCp").innerHTML = "Debe rellenar el código postal";
+            }
+            else if (checkCP.length != 5) {
+                document.getElementById("innerCp").style.color = "red"
                 document.getElementById("innerCp").innerHTML = "El código postal debe contener 5 digitos";
             }
-            if (!Number.isInteger(checkCP)) {
+            else if (isNaN(checkCP)) {
+                document.getElementById("innerCp").style.color = "red"
                 document.getElementById("innerCp").innerHTML = "El código postal debe contener digitos numéricos";
             }
-            if (checkCP == '') {
-                document.getElementById("innerCp").innerHTML = "Debe rellenar el código postal" + checkCP;
+            else if (checkCP == '') {
+                document.getElementById("innerCp").style.color = "red"
+                document.getElementById("innerCp").innerHTML = "Debe rellenar el código postal";
             } else {
-                document.getElementById("innerCp").innerHTML = "";
+                document.getElementById("innerCp").style.color = "green"
+                document.getElementById("innerCp").innerHTML = "Código postal válido";
             }
         }
     </script>
